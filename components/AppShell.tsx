@@ -31,7 +31,7 @@ function Shell() {
           </nav>
           <a
             className="tab"
-            href={process.env.NEXT_PUBLIC_COMPANION_URL ?? "http://localhost:3000"}
+            href={process.env.NEXT_PUBLIC_COMPANION_URL ?? "https://amir5793.github.io/weekly-os/"}
             title="داشبورد هفتگی (Weekly OS)"
           >
             رفتن به weekly-os

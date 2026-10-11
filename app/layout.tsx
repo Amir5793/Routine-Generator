@@ -2,6 +2,8 @@ import type { Metadata, Viewport } from "next";
 import Script from "next/script";
 import "./globals.css";
 
+const COMPANION_URL = process.env.NEXT_PUBLIC_COMPANION_URL ?? "https://amir5793.github.io/weekly-os/";
+
 export const metadata: Metadata = {
   title: "مولد روتین هفتگی — Weekly OS",
   description:
@@ -35,6 +37,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         <link rel="preconnect" href="https://cdn.jsdelivr.net" />
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" />
+        <link rel="manifest" href="/manifest.webmanifest" />
+        <link rel="related" href={COMPANION_URL} title="داشبورد هفتگی (Weekly OS)" />
         <Script id="theme-boot" strategy="beforeInteractive">{THEME_BOOT}</Script>
       </head>
       <body>
