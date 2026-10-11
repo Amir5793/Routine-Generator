@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>آفلاین — مولد روتین</title>
+<style>
+:root{--bg:#f2f9f4;--card:#fff;--line:#d3e8d8;--tx:#14392a;--mut:#5b7d67;--ok:#059669}
+html[data-theme=dark]{--bg:#04070d;--card:#0a1120;--line:#1d2b47;--tx:#e6edf9;--mut:#8ba3c8;--ok:#34d399}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;background:var(--bg);color:var(--tx);font-family:Vazirmatn,Tahoma,sans-serif;line-height:1.9;padding:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:28px;max-width:420px;text-align:center}
+.dot{width:52px;height:52px;border-radius:14px;background:var(--ok);color:#fff;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:800;margin:0 auto 12px}
+h1{font-size:20px;margin:0 0 8px}
+p{color:var(--mut);font-size:14px;margin:0 0 16px}
+button{border:0;border-radius:12px;background:var(--ok);color:#fff;font:inherit;font-weight:700;font-size:14px;min-height:44px;padding:0 24px;cursor:pointer}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="dot">ر</div>
+  <h1>الان آفلاینی</h1>
+  <p>اتصال اینترنت برقرار نیست، ولی داده‌هایت در همین دستگاه ذخیره شده. با وصل شدن دوباره، برنامه برمی‌گردد.</p>
+  <button onclick="location.reload()">تلاش دوباره</button>
+</div>
+<script>try{var t=JSON.parse(localStorage.getItem("rg:theme"));if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+</body>
+</html>

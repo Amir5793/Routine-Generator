@@ -1,0 +1,241 @@
+/* ════════ پالت رنگی جدید ════════
+   روشن: سبز و سفید · تیره: آبی و مشکی
+   (بقیهٔ CSS عیناً از نسخهٔ HTML اصلی است) */
+
+:root {
+  --bg: #f2f9f4;
+  --card: #fff;
+  --line: #d3e8d8;
+  --tx: #14392a;
+  --mut: #5b7d67;
+  --ok: #059669;
+  --warn: #d97706;
+  --bad: #dc2626;
+  --acc: #059669;
+  --chip: #e8f4ec;
+  --okline: #a7f3d0;
+  --badline: #fecaca;
+  --warnline: #fde68a;
+  --pre-bg: #111;
+  --pre-tx: #e5e5e5;
+}
+html[data-theme="dark"] {
+  --bg: #04070d;
+  --card: #0a1120;
+  --line: #1d2b47;
+  --tx: #e6edf9;
+  --mut: #8ba3c8;
+  --ok: #34d399;
+  --warn: #fbbf24;
+  --bad: #f87171;
+  --acc: #3b82f6;
+  --chip: #101a2f;
+  --okline: #14532e;
+  --badline: #5c1d1d;
+  --warnline: #5c4413;
+  --pre-bg: #060b16;
+  --pre-tx: #dbe7ff;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--tx);
+  font-family: Vazirmatn, Tahoma, sans-serif;
+  line-height: 1.9;
+}
+header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: var(--card);
+  border-bottom: 1px solid var(--line);
+}
+.hrow {
+  max-width: 1000px;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  flex-wrap: wrap;
+}
+.brand { font-weight: 800; display: flex; align-items: center; gap: 8px }
+.brand .dot {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  background: var(--tx);
+  color: var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  font-weight: 800;
+}
+.tabs { display: flex; gap: 6px; flex: 1; overflow-x: auto }
+.tab {
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--mut);
+  font: inherit;
+  font-size: 13px;
+  min-height: 40px;
+  padding: 0 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.tab.on { background: var(--tx); color: var(--bg); border-color: var(--tx) }
+main { max-width: 1000px; margin: auto; padding: 20px 16px 60px }
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 18px;
+  margin-top: 14px;
+}
+h1 { font-size: 22px; margin: 6px 0 }
+h2 { font-size: 17px; margin: 0 0 10px }
+.mut { color: var(--mut); font-size: 13px }
+.stepper { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 14px }
+.st {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid var(--line);
+  background: var(--card);
+  border-radius: 12px;
+  padding: 6px 12px;
+  cursor: pointer;
+  font: inherit;
+  font-size: 13px;
+  color: var(--mut);
+  min-height: 44px;
+}
+.st .n {
+  width: 26px;
+  height: 26px;
+  border-radius: 99px;
+  border: 2px solid var(--line);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+  flex: none;
+}
+.st.on { border-color: var(--tx); color: var(--tx) }
+.st.on .n { background: var(--tx); color: var(--bg); border-color: var(--tx) }
+.st.done .n { background: var(--ok); border-color: var(--ok); color: #fff }
+.fld { display: block; margin: 10px 0 }
+.fld span { display: block; font-size: 13px; font-weight: 600; margin-bottom: 4px }
+input, select, textarea {
+  width: 100%;
+  min-height: 44px;
+  border: 1px solid var(--line);
+  background: var(--bg);
+  color: var(--tx);
+  border-radius: 10px;
+  padding: 8px 12px;
+  font: inherit;
+}
+input:focus,
+select:focus,
+textarea:focus,
+button:focus-visible,
+.tab:focus-visible,
+.st:focus-visible {
+  outline: 2px solid var(--acc);
+  outline-offset: 2px;
+}
+.grid { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)) }
+.row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap }
+.chk {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 6px 12px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--card);
+  cursor: pointer;
+  font-size: 14px;
+}
+.chk input { width: 18px; height: 18px; min-height: 0; accent-color: var(--acc) }
+.btn {
+  border: 0;
+  border-radius: 12px;
+  background: var(--tx);
+  color: var(--bg);
+  font: inherit;
+  font-weight: 700;
+  font-size: 14px;
+  min-height: 44px;
+  padding: 0 20px;
+  cursor: pointer;
+}
+.btn:disabled { opacity: 0.4; cursor: not-allowed }
+.btn.gh { background: transparent; border: 1px solid var(--line); color: var(--tx) }
+.btn.dn { background: var(--bad); color: #fff }
+.btn.ok { background: var(--ok); color: #fff }
+table { width: 100%; border-collapse: collapse; font-size: 13.5px }
+th, td { border: 1px solid var(--line); padding: 8px 10px; text-align: right; vertical-align: middle }
+th { background: var(--chip); font-size: 12.5px }
+.num, .n { direction: ltr; text-align: center; font-variant-numeric: tabular-nums }
+.meter { height: 12px; background: var(--line); border-radius: 99px; overflow: hidden; margin: 8px 0 }
+.meter i { display: block; height: 100%; border-radius: 99px; background: var(--ok); transition: width 0.3s }
+.vit {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  margin: 6px 0;
+  font-size: 13.5px;
+}
+.vit .ic { font-weight: 800; width: 20px; text-align: center; flex: none }
+.vit.ok { border-color: var(--okline) }
+.vit.ok .ic { color: var(--ok) }
+.vit.bad { border-color: var(--badline) }
+.vit.bad .ic { color: var(--bad) }
+.vit.warn { border-color: var(--warnline) }
+.vit.warn .ic { color: var(--warn) }
+pre {
+  direction: rtl;
+  text-align: right;
+  background: var(--pre-bg);
+  color: var(--pre-tx);
+  border-radius: 14px;
+  padding: 18px;
+  overflow: auto;
+  max-height: 62vh;
+  font-size: 12.5px;
+  line-height: 2;
+  white-space: pre-wrap;
+}
+.bars { display: flex; gap: 4px; align-items: flex-end; height: 44px }
+.bars i {
+  width: 14px;
+  background: var(--tx);
+  opacity: 0.8;
+  border-radius: 3px 3px 0 0;
+  display: block;
+  min-height: 2px;
+}
+footer {
+  border-top: 1px solid var(--line);
+  color: var(--mut);
+  font-size: 12px;
+  text-align: center;
+  padding: 14px;
+}
+@media print {
+  header, footer, .tabs, .stepper, .btn, .noprint { display: none !important }
+  main { max-width: none; padding: 0 }
+  pre { max-height: none; background: #fff; color: #000 }
+}

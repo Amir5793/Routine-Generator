@@ -1,0 +1,435 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>مولد روتین هفتگی — Weekly OS</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css"/>
+<style>
+:root{--bg:#f5f5f4;--card:#fff;--line:#e7e5e4;--tx:#1c1917;--mut:#78716c;--ok:#059669;--warn:#d97706;--bad:#dc2626;--acc:#e11d48;--chip:#f5f5f4}
+html[data-theme=dark]{--bg:#09090b;--card:#18181b;--line:#27272a;--tx:#fafafa;--mut:#a1a1aa;--chip:#27272a}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font-family:Vazirmatn,Tahoma,sans-serif;line-height:1.9}
+header{position:sticky;top:0;z-index:20;background:var(--card);border-bottom:1px solid var(--line)}
+.hrow{max-width:1000px;margin:auto;display:flex;align-items:center;gap:10px;padding:10px 16px;flex-wrap:wrap}
+.brand{font-weight:800;display:flex;align-items:center;gap:8px}
+.brand .dot{width:34px;height:34px;border-radius:10px;background:var(--tx);color:var(--bg);display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:800}
+.tabs{display:flex;gap:6px;flex:1;overflow-x:auto}
+.tab{border:1px solid var(--line);background:transparent;color:var(--mut);font:inherit;font-size:13px;min-height:40px;padding:0 14px;border-radius:10px;cursor:pointer;white-space:nowrap}
+.tab.on{background:var(--tx);color:var(--bg);border-color:var(--tx)}
+main{max-width:1000px;margin:auto;padding:20px 16px 60px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;margin-top:14px}
+h1{font-size:22px;margin:6px 0}h2{font-size:17px;margin:0 0 10px}
+.mut{color:var(--mut);font-size:13px}
+.stepper{display:flex;gap:6px;flex-wrap:wrap;margin-top:14px}
+.st{display:flex;align-items:center;gap:8px;border:1px solid var(--line);background:var(--card);border-radius:12px;padding:6px 12px;cursor:pointer;font:inherit;font-size:13px;color:var(--mut);min-height:44px}
+.st .n{width:26px;height:26px;border-radius:99px;border:2px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex:none}
+.st.on{border-color:var(--tx);color:var(--tx)}
+.st.on .n{background:var(--tx);color:var(--bg);border-color:var(--tx)}
+.st.done .n{background:var(--ok);border-color:var(--ok);color:#fff}
+.fld{display:block;margin:10px 0}
+.fld span{display:block;font-size:13px;font-weight:600;margin-bottom:4px}
+input,select,textarea{width:100%;min-height:44px;border:1px solid var(--line);background:var(--bg);color:var(--tx);border-radius:10px;padding:8px 12px;font:inherit}
+input:focus,select:focus,textarea:focus,button:focus-visible,.tab:focus-visible,.st:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.chk{display:flex;align-items:center;gap:8px;min-height:44px;padding:6px 12px;border:1px solid var(--line);border-radius:10px;background:var(--card);cursor:pointer;font-size:14px}
+.chk input{width:18px;height:18px;min-height:0;accent-color:var(--tx)}
+.btn{border:0;border-radius:12px;background:var(--tx);color:var(--bg);font:inherit;font-weight:700;font-size:14px;min-height:44px;padding:0 20px;cursor:pointer}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.btn.gh{background:transparent;border:1px solid var(--line);color:var(--tx)}
+.btn.dn{background:var(--bad);color:#fff}
+.btn.ok{background:var(--ok);color:#fff}
+table{width:100%;border-collapse:collapse;font-size:13.5px}
+th,td{border:1px solid var(--line);padding:8px 10px;text-align:right;vertical-align:middle}
+th{background:var(--chip);font-size:12.5px}
+.num,.n{direction:ltr;text-align:center;font-variant-numeric:tabular-nums}
+.meter{height:12px;background:var(--line);border-radius:99px;overflow:hidden;margin:8px 0}
+.meter i{display:block;height:100%;border-radius:99px;background:var(--ok);transition:width .3s}
+.vit{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;border:1px solid var(--line);border-radius:10px;margin:6px 0;font-size:13.5px}
+.vit .ic{font-weight:800;width:20px;text-align:center;flex:none}
+.vit.ok{border-color:#a7f3d0}.vit.ok .ic{color:var(--ok)}
+.vit.bad{border-color:#fecaca}.vit.bad .ic{color:var(--bad)}
+.vit.warn{border-color:#fde68a}.vit.warn .ic{color:var(--warn)}
+pre{direction:rtl;text-align:right;background:#111;color:#e5e5e5;border-radius:14px;padding:18px;overflow:auto;max-height:62vh;font-size:12.5px;line-height:2;white-space:pre-wrap}
+.bars{display:flex;gap:4px;align-items:flex-end;height:44px}
+.bars i{width:14px;background:var(--tx);opacity:.8;border-radius:3px 3px 0 0;display:block;min-height:2px}
+footer{border-top:1px solid var(--line);color:var(--mut);font-size:12px;text-align:center;padding:14px}
+@media print{header,footer,.tabs,.stepper,.btn,.noprint{display:none!important}main{max-width:none;padding:0}pre{max-height:none;background:#fff;color:#000}}
+</style>
+</head>
+<body>
+<header><div class="hrow">
+  <div class="brand"><span class="dot">ر</span><span>مولد روتین — Weekly OS</span></div>
+  <nav class="tabs" aria-label="بخش‌ها">
+    <button class="tab" id="t-gen" onclick="go('gen')">مولد روتین</button>
+    <button class="tab" id="t-run" onclick="go('run')">اجرا و رصد</button>
+    <button class="tab" id="t-his" onclick="go('his')">تاریخچه</button>
+  </nav>
+  <button class="tab" onclick="toggleTheme()">تم روشن/تیره</button>
+</div></header>
+<main id="app"></main>
+<footer>چارچوب ثابت؛ روتین متغیر — همهٔ داده‌ها فقط در همین مرورگر ذخیره می‌شوند.</footer>
+
+<script>
+/* ════════ لایهٔ ۱: دادهٔ ثابت چارچوب (v2.0) ════════ */
+const DAYS=[{k:'sat',n:'شنبه'},{k:'sun',n:'یکشنبه'},{k:'mon',n:'دوشنبه'},{k:'tue',n:'سه‌شنبه'},{k:'wed',n:'چهارشنبه'},{k:'thu',n:'پنجشنبه'},{k:'fri',n:'جمعه'}];
+const dayName=k=>DAYS.find(d=>d.k===k).n;
+const MISSION={sat:'تحلیل + فیزیک',sun:'حسابان',mon:'جذب (بدون K اضافه)',tue:'تثبیت + ضبط‌ها',wed:'هندسه + مرورها',thu:'مرور + جبران + آمادگی + برنامه‌ریزی',fri:'آزمون / استراحت'};
+const REVIEWS=[ // درس، روز، پایان، مهلت۴۸h، جای مرور
+ ['فیزیک','شنبه','23:30','دوشنبه 23:30','مرور ذهنی در تخت (شنبه) + دوشنبه در مدرسه'],
+ ['حسابان','یکشنبه','20:00','سه‌شنبه 20:00','همان شب 20:00–20:45'],
+ ['فیزیک','دوشنبه','18:15','چهارشنبه 18:15','سه‌شنبه در مدرسه'],
+ ['فارسی','دوشنبه','20:00','چهارشنبه 20:00','چهارشنبه 19:00–19:30'],
+ ['شیمی','دوشنبه','23:15','چهارشنبه 23:15','مرور ذهنی در تخت (دوشنبه) + سه‌شنبه 17:00–18:00'],
+ ['دینی','سه‌شنبه','20:00','پنجشنبه 20:00','پنجشنبه 14:45–15:15'],
+ ['هندسه','چهارشنبه','18:15','جمعه 18:15','پنجشنبه 15:30–16:00']];
+const BREC=[ // درس، پخش، مهلت، جای تماشا
+ ['عربی','یکشنبه 22:00','یکشنبهٔ بعد (پیش از 16:45)','سه‌شنبه 20:00 · سرعت ۲'],
+ ['زمین','یکشنبه 20:15','یکشنبهٔ بعد (پیش از 16:45)','سه‌شنبه 20:45 · سرعت ۲'],
+ ['آمار','سه‌شنبه 20:15','سه‌شنبهٔ بعد (پیش از 20:15)','پنجشنبه 14:00 · سرعت ۲']];
+const SUBJECTS=[
+ {id:'calc',n:'حسابان',cat:'math',def:[25,40]},
+ {id:'geo',n:'هندسه',cat:'math',def:[25,45]},
+ {id:'phy',n:'فیزیک (جاری)',cat:'phy',def:[10,15]},
+ {id:'phyBack',n:'فیزیک (بک‌لاگ)',cat:'phy',def:[15,20]},
+ {id:'chem',n:'شیمی',cat:'chem',def:[15,25]},
+ {id:'stat',n:'آمار/جبر',cat:'math',def:[5,10]},
+ {id:'arabic',n:'عربی',cat:'gen',def:[20,30]},
+ {id:'farsi',n:'فارسی',cat:'gen',def:[10,15]},
+ {id:'din',n:'دینی',cat:'gen',def:[5,10]},
+ {id:'lang',n:'زبان',cat:'gen',def:[0,10]}];
+const MPT={math:4,phy:3,chem:2.5,gen:1.5}; // دقیقه به‌ازای هر تست (تقریبی فاز ۱)
+const ALLOC={calc:{sunSchool:.6,sunNight:.4},geo:{tueSchool:.2,wedSchool:.45,wedNight:.35},phy:{monSchool:.5,tueSchool:.5},phyBack:{satSchool:.75,satEve:.25},chem:{tueSchool:1},stat:{thu:1},arabic:{satEve:.35,sunNight:.35,wedOpen:.3},farsi:{monSchool:.7,wedOpen:.3},din:{tueNight:.6,thu:.4},lang:{thuOpen:1}};
+const CAP={sat:[120,180],sun:[135,105],mon:[120,0],tue:[135,120],wed:[90,150],thu:[0,300],fri:[0,0]}; // [زنگ قابل‌تست، عصر] دقیقه
+const SACRIFICE=['زبان (در صورت فعال بودن)','K آمار','K شب چهارشنبهٔ هندسه','K عربی','K شیمی'];
+const LADDER=['۱) مرور A با ≤۲۴ ساعت مهلت باقی‌مانده','۲) ضبط B با ≤۴۸ ساعت مهلت','۳) بدهی / بک‌لاگ','۴) K مأموریت پیش‌فرض روز','۵) عمومی میکرو','۶) خالی بماند — استراحت جزو برنامه است'];
+
+/* ════════ وضعیت و ذخیره‌سازی ════════ */
+const K_D='rg:draft',K_W='rg:weeks',K_T='rg:theme';
+const load=(k,f)=>{try{const v=JSON.parse(localStorage.getItem(k));return v??f}catch(e){return f}};
+const save=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}};
+let weeks=load(K_W,[]);
+function newDraft(n){
+  const last=weeks[weeks.length-1]||null, s=last&&last.summary;
+  return {n,phase:last?last.phase:1,mode:last?(last.mode==='exam'?'regular':'exam'):'exam',startDate:'',started:false,
+   status:{k:s?s.k:'',energy:s?s.energy:'',lDays:s?s.lDays:'',backlog:s?s.backlogFinal:0,debts:{a:false,b:false,an:false},note:''},
+   events:{asatide:false,asatideDay:'thu',asatideTime:'09:00–12:00',holidays:{sat:false,sun:false,mon:false,tue:false,wed:false},schoolExam:false},
+   quotas:Object.fromEntries(SUBJECTS.map(x=>[x.id,{L:x.def[0],K:x.def[1]}])),
+   analysisChoice:'',sultanApplied:false,langCut:false};
+}
+let draft=load(K_D,null)||newDraft(weeks.length?Math.max(...weeks.map(w=>w.n))+(weeks.some(w=>!w.closed)?0:1):1);
+let tab='gen',step=1;
+const app=document.getElementById('app');
+
+/* ════════ کمکی‌ها ════════ */
+const fa=v=>String(v).replace(/\d/g,d=>'۰۱۲۳۴۵۶۷۸۹'[d]);
+const r5=x=>Math.round(x/5)*5;
+const esc=s=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;');
+const fld=(l,inner)=>`<label class="fld"><span>${l}</span>${inner}</label>`;
+const chk=(id,l,c,h)=>`<label class="chk" for="${id}"><input type="checkbox" id="${id}" ${c?'checked':''} onchange="${h}">${l}</label>`;
+function prevMode(d){const p=weeks.find(w=>w.n===d.n-1);return p?p.mode:null}
+function analysisLabel(d){const pm=prevMode(d);if(pm==='exam')return{auto:true,txt:'آزمون ماز جمعهٔ قبل'};return{auto:false,txt:d.analysisChoice||''}}
+function sultanTriggered(){const c=weeks.filter(w=>w.closed&&w.summary);if(c.length<2)return false;const[a,b]=c.slice(-2);return a.summary.k<60&&b.summary.k<60}
+function loads(d){let L=0,K=0;for(const s of SUBJECTS){const q=d.quotas[s.id];L+=Number(q.L)*MPT[s.cat];K+=Number(q.K)*MPT[s.cat]}return{L:L*1.3,K:K*1.3}}
+function capacity(d){let t=0;for(const[k,sc]of Object.entries(CAP)){t+=sc[0]+sc[1];if(d.events.holidays[k]){t=t-sc[0]+120}}if(d.events.schoolExam)t*=0.6;return t}
+function totL(){return SUBJECTS.reduce((a,s)=>a+Number(draft.quotas[s.id].L),0)}
+function totK(){return SUBJECTS.reduce((a,s)=>a+Number(draft.quotas[s.id].K),0)}
+
+/* ════════ ستترها ════════ */
+function setSt(k,v){draft.status[k]=v;save(K_D,draft)}
+function setDeb(k,v){draft.status.debts[k]=v;save(K_D,draft)}
+function setDr(k,v){draft[k]=v;save(K_D,draft)}
+function setDrB(k,v){draft[k]=v;save(K_D,draft);render()}
+function setEv(k,v){draft.events[k]=v;save(K_D,draft);render()}
+function setEvT(k,v){draft.events[k]=v;save(K_D,draft)}
+function setHol(k,v){draft.events.holidays[k]=v;save(K_D,draft)}
+function setQ(id,f,v){draft.quotas[id][f]=Math.max(0,parseInt(v)||0);save(K_D,draft);
+  const lb=document.getElementById('loadbox');if(lb)lb.innerHTML=loadBox();
+  const tl=document.getElementById('tL'),tk=document.getElementById('tK');if(tl)tl.textContent=fa(totL());if(tk)tk.textContent=fa(totK())}
+function applySultan(){for(const s of SUBJECTS){const q=draft.quotas[s.id];q.L=Math.round(q.L*.8);q.K=Math.round(q.K*.8)}draft.sultanApplied=true;save(K_D,draft);render()}
+function scaleQ(f){for(const s of SUBJECTS){const q=draft.quotas[s.id];q.L=Math.round(q.L*f);q.K=Math.round(q.K*f)}save(K_D,draft);render()}
+function copyLast(){const c=weeks.filter(w=>w.closed&&w.quotas).pop();if(!c){alert('هفتهٔ بسته‌ای برای کپی نیست.');return}
+  for(const s of SUBJECTS)draft.quotas[s.id]=c.quotas[s.id]?{...c.quotas[s.id]}:{L:s.def[0],K:s.def[1]};save(K_D,draft);render()}
+
+/* ════════ اعتبارسنجی ════════ */
+function validate(d){
+  const v=[];const{K}=loads(d),cap=capacity(d);
+  v.push({ok:K<=cap*.8,t:`بار K: ${fa(Math.round(K))}′ از ظرفیت ${fa(Math.round(cap))}′ — سقف ۸۰٪ = ${fa(Math.round(cap*.8))}′`});
+  const bad=SUBJECTS.filter(s=>Number(d.quotas[s.id].K)<Number(d.quotas[s.id].L));
+  if(bad.length)v.push({ok:false,t:'K نباید از L کمتر باشد: '+bad.map(s=>s.n).join('، ')});
+  const a=analysisLabel(d);
+  v.push({ok:!!a.txt,t:a.txt?`منبع تحلیل شنبه: ${a.txt}${a.auto?' (خودکار از حالت هفتهٔ قبل)':''}`:'منبع تحلیل شنبه مشخص نیست — در گام ۳ انتخاب کن'});
+  v.push({ok:true,t:'هر کلاس A یک مرور ≤۴۸ ساعته دارد (جدول گام ۳)'});
+  v.push({ok:true,t:'هر ضبط B جای و مهلت دارد (جدول گام ۳)'});
+  v.push({ok:true,t:'خواب 23:30–06:30، ۸ ساعت جمعه و ورزش چهارشنبه محفوظند (تضمین ساختاری)'});
+  if(sultanTriggered())v.push(d.sultanApplied?{ok:true,t:'فرمانروا اعمال شد (−۲۰٪ سهمیه‌ها)'}:{ok:false,t:'قاعدهٔ فرمانروا فعال است (دو هفتهٔ متوالی K<۶۰٪) — در گام ۴ اعمالش کن'});
+  const hol=Object.entries(d.events.holidays).filter(([,x])=>x);
+  if(hol.length)v.push({ok:true,warn:true,t:`تعطیلی ${hol.map(([k])=>dayName(k)).join('، ')} — تخصیص زنگ‌های مدرسهٔ این روزها طبق قاعدهٔ جابه‌جایی به اسلات باز می‌رود (در فایل خروجی اعمال و قابل ویرایش است)`});
+  return v;
+}
+
+/* ════════ رابط: مولد ════════ */
+const STEPS=['وضعیت ورودی','زمینهٔ هفته','اصول چهارگانه','سهمیه‌ها و بار','اعتبارسنجی','تحویل'];
+function rGen(){
+  let h=`<h1>مولد روتین هفتهٔ ${fa(draft.n)}</h1><p class="mut">فقط مقادیر متغیر را وارد کن؛ قفل‌ها، مهلت‌ها و جای‌گذاری‌ها از چارچوب محاسبه می‌شوند. خروجی: فایل Markdown روتین همین هفته.</p>`;
+  if(draft.started)h+=`<div class="vit warn"><span class="ic">!</span><span>این روتین شروع شده و در حال اجراست. تولید مجدد، روتین را بازنویسی می‌کند — رصد در تب «اجرا و رصد».</span></div>`;
+  h+=`<div class="stepper">`+STEPS.map((s,i)=>`<button class="st ${step===i+1?'on':''} ${step>i+1?'done':''}" onclick="goStep(${i+1})"><span class="n">${step>i+1?'✓':fa(i+1)}</span>${s}</button>`).join('')+`</div>`;
+  h+=`<div class="card">${[s1,s2,s3,s4,s5,s6][step-1]()}</div><div class="row" style="margin-top:14px">`;
+  if(step>1)h+=`<button class="btn gh" onclick="goStep(${step-1})">مرحلهٔ قبل</button>`;
+  if(step<6)h+=`<button class="btn" onclick="next()">مرحلهٔ بعد</button>`;
+  h+=`</div>`;return h;
+}
+function goStep(i){step=i;render()}
+function next(){
+  if(step===3&&!analysisLabel(draft).txt){alert('منبع تحلیل شنبه را انتخاب کن.');return}
+  if(step===5&&validate(draft).some(x=>!x.ok)){alert('اول همهٔ موارد قرمز گام ۵ را حل کن.');return}
+  step++;render();
+}
+function s1(){const st=draft.status;return `<h2>وضعیت ورودی</h2><p class="mut">اگر هفتهٔ قبل را بسته باشی، این مقادیر خودکار آمده‌اند؛ فقط تصحیح کن.</p>
+ <div class="grid">
+  ${fld('اجرای K هفتهٔ قبل (٪)',`<input class="n" type="number" min="0" max="100" value="${st.k}" oninput="setSt('k',this.value)">`)}
+  ${fld('انرژی میانگین (۱–۵)',`<input class="n" type="number" min="1" max="5" step="0.1" value="${st.energy}" oninput="setSt('energy',this.value)">`)}
+  ${fld('روزهای L-کامل (۰–۷)',`<input class="n" type="number" min="0" max="7" value="${st.lDays}" oninput="setSt('lDays',this.value)">`)}
+  ${fld('بک‌لاگ فیزیک (تست)',`<input class="n" type="number" min="0" value="${st.backlog}" oninput="setSt('backlog',this.value)">`)}
+ </div>
+ <div class="row" style="margin-top:10px">
+  ${chk('da','مرور A جامانده',st.debts.a,"setDeb('a',this.checked)")}
+  ${chk('db','ضبط B جامانده',st.debts.b,"setDeb('b',this.checked)")}
+  ${chk('dn','تحلیل جامانده',st.debts.an,"setDeb('an',this.checked)")}
+ </div>
+ <label class="fld"><span>یادداشت آزاد — یک خط واقعیت</span><textarea rows="2" oninput="setSt('note',this.value)">${st.note}</textarea></label>`}
+function s2(){const e=draft.events;const sug=draft.mode==='exam'&&Number(draft.status.backlog)>25;return `<h2>زمینهٔ هفته</h2>
+ <div class="grid">
+  ${fld('فاز',`<select onchange="setDrB('phase',+this.value)">${[1,2,3,4].map(p=>`<option value="${p}" ${draft.phase===p?'selected':''}>فاز ${fa(p)} — ${['پایه + تست موضوعی','موضوعی سنگین + ترکیبی','آزمون‌محور + مرور دوره‌ای','مرور نهایی و ریتم'][p-1]}</option>`).join('')}</select>`)}
+  ${fld('حالت هفته',`<select onchange="setDrB('mode',this.value)"><option value="exam" ${draft.mode==='exam'?'selected':''}>هفتهٔ آزمون ماز (جمعه)</option><option value="regular" ${draft.mode==='regular'?'selected':''}>هفتهٔ بدون آزمون ماز</option></select>`)}
+  ${fld('تاریخ شروع هفته (اختیاری)',`<input value="${draft.startDate}" placeholder="مثلاً شنبه ۱۸ مهر ۱۴۰۵" oninput="setDr('startDate',this.value)">`)}
+ </div>
+ <div class="row" style="margin-top:10px">
+  ${chk('as','آزمون اساتید این هفته دارم',e.asatide,"setEv('asatide',this.checked)")}
+  ${chk('se','هفتهٔ امتحان مدرسه است',e.schoolExam,"setEv('schoolExam',this.checked)")}
+ </div>
+ ${e.asatide?`<div class="grid">${fld('روز آزمون اساتید',`<select onchange="setEv('asatideDay',this.value)">${['thu','wed','sat'].map(d=>`<option value="${d}" ${e.asatideDay===d?'selected':''}>${dayName(d)}</option>`).join('')}</select>`)}${fld('ساعت',`<input value="${e.asatideTime}" oninput="setEvT('asatideTime',this.value)">`)}</div>`:''}
+ <p class="mut" style="margin:12px 0 4px">تعطیلی مدرسه (اگر هست):</p>
+ <div class="row">${['sat','sun','mon','tue','wed'].map(k=>chk('h-'+k,dayName(k),e.holidays[k],`setHol('${k}',this.checked)`)).join('')}</div>
+ <div class="row" style="margin-top:12px">${chk('lc','حذف زبان C این هفته',draft.langCut,"setDrB('langCut',this.checked)")}</div>
+ ${sug&&!draft.langCut?`<div class="vit warn"><span class="ic">!</span><span>پیشنهاد: هفتهٔ آزمون + بک‌لاگ ${fa(draft.status.backlog)}تایی → حذف زبان C (طبق تعریف C در چارچوب).</span></div>`:''}
+ ${e.schoolExam?`<div class="vit warn"><span class="ic">!</span><span>هفتهٔ امتحان مدرسه: در گام ۴ دکمهٔ «بار سبک ۶۰٪» را بزن.</span></div>`:''}`}
+function s3(){const a=analysisLabel(draft),pm=prevMode(draft);let h=`<h2>اصول چهارگانه — جای‌گذاری خودکار</h2><p class="mut">این جدول‌ها از چارچوب محاسبه می‌شوند و ثابت‌اند؛ فقط مرور کن. ${pm?`هفتهٔ قبل ${pm==='exam'?'آزمون ماز داشت':'آزمون ماز نداشت'}.`:''}</p>`;
+ h+=`<p class="mut"><b>مرور کلاس‌های A (اصل ۲ — سقف ۴۸ ساعت):</b></p><table><tr><th>کلاس</th><th>پایان</th><th>مهلت مرور</th><th>جای مرور</th></tr>${REVIEWS.map(r=>`<tr><td>${r[0]} ${r[1]}</td><td class="num">${r[2]}</td><td class="num">${r[3]}</td><td>${r[4]}</td></tr>`).join('')}</table>`;
+ h+=`<p class="mut" style="margin-top:12px"><b>ضبط‌های B (اصل ۱ — پیش از جلسهٔ بعدی):</b></p><table><tr><th>درس</th><th>پخش</th><th>مهلت</th><th>جای تماشا</th></tr>${BREC.map(r=>`<tr><td>${r[0]}</td><td class="num">${r[1]}</td><td>${r[2]}</td><td>${r[3]}</td></tr>`).join('')}</table>`;
+ if(a.auto)h+=`<div class="vit ok"><span class="ic">✓</span><span><b>منبع تحلیل شنبه (خودکار):</b> ${a.txt}</span></div>`;
+ else h+=`<label class="fld" style="margin-top:12px"><span>منبع تحلیل شنبه (اصل ۳ — هفتهٔ قبل آزمون ماز نداشت)</span>
+  <select onchange="setDrB('analysisChoice',this.value)">
+   <option value="">— انتخاب کن —</option>
+   ${['آزمون اساتید پنجشنبهٔ قبل','آزمون خودساخته از دفتر خطا','آزمون معلم','آزمون ماز جمعهٔ قبل'].map(o=>`<option ${draft.analysisChoice===o?'selected':''}>${o}</option>`).join('')}
+  </select></label>`;
+ h+=`<div class="vit ok"><span class="ic">✓</span><span><b>قاعدهٔ یک روز اختلال (اصل ۴):</b> C حذف ← B به مهلت بعدی ← A و خواب محفوظ ← جبران در پنجشنبه/جمعه با ظرفیت واقعی.</span></div>`;
+ if(Object.values(draft.events.holidays).some(x=>x))h+=`<div class="vit warn"><span class="ic">!</span><span>تعطیلی داری — هر جای‌گذاری که روی روز تعطلی می‌افتد، طبق نردبان به اولین اسلات بازِ قبل از مهلت منتقل می‌شود (در فایل خروجی همین‌طور درج شده).</span></div>`;
+ if(sultanTriggered())h+=`<div class="vit warn"><span class="ic">!</span><span>فرمانروا فعال است — در گام ۴ اعمال کن.</span></div>`;
+ return h}
+function loadBox(){const{L,K}=loads(draft),cap=capacity(draft),p=Math.min(150,Math.round(K/(cap*.8)*100));
+ return `<div class="row" style="justify-content:space-between"><span>بار K: <b>${fa(Math.round(K))}</b> دقیقه از ظرفیت <b>${fa(Math.round(cap))}</b>′</span><span>سقف ۸۰٪: <b>${fa(Math.round(cap*.8))}</b>′</span></div>
+ <div class="meter"><i style="width:${Math.min(100,p)}%;${p>100?'background:var(--bad)':p>85?'background:var(--warn)':''}"></i></div>
+ <p class="mut">بار L: ${fa(Math.round(L))}′ · اشغال سقف: ${fa(p)}٪ ${p>100?'— بیش از حد!':p>85?'— نزدیک سقف':'— مناسب'}</p>`}
+function s4(){return `<h2>سهمیه‌ها (L / K)</h2><p class="mut">L = لازم (عقد)، K = کافی (هدف). اعداد پیشنهادی‌اند؛ بار باید زیر ۸۰٪ ظرفیت بماند.</p>
+ <div id="loadbox">${loadBox()}</div>
+ <table><tr><th>درس</th><th>L</th><th>K</th></tr>
+ ${SUBJECTS.map(s=>{const q=draft.quotas[s.id];return `<tr><td>${s.n}</td><td><input class="n" type="number" min="0" value="${q.L}" oninput="setQ('${s.id}','L',this.value)"></td><td><input class="n" type="number" min="0" value="${q.K}" oninput="setQ('${s.id}','K',this.value)"></td></tr>`}).join('')}
+ <tr><th>جمع</th><th class="num" id="tL">${fa(totL())}</th><th class="num" id="tK">${fa(totK())}</th></tr></table>
+ <div class="row" style="margin-top:12px">
+  <button class="btn gh" onclick="copyLast()">کپی سهمیه‌های هفتهٔ قبل</button>
+  ${draft.events.schoolExam?`<button class="btn gh" onclick="scaleQ(0.6)">بار سبک ۶۰٪ (امتحان مدرسه)</button>`:''}
+  ${sultanTriggered()&&!draft.sultanApplied?`<button class="btn dn" onclick="applySultan()">اعمال فرمانروا (−۲۰٪)</button>`:''}
+ </div>
+ <p class="mut" style="margin-top:12px">ترتیب قربانی‌ها (پیش‌فرض؛ در فایل خروجی قابل ویرایش): ${SACRIFICE.join(' ← ')}</p>`}
+function s5(){const v=validate(draft);return `<h2>اعتبارسنجی</h2><p class="mut">دروازهٔ قبل از تولید. موارد قرمز مانع تولید هستند.</p>`+v.map(x=>`<div class="vit ${x.ok?(x.warn?'warn':'ok'):'bad'}"><span class="ic">${x.ok?'✓':'✗'}</span><span>${x.t}</span></div>`).join('')}
+function s6(){const ok=!validate(draft).some(x=>!x.ok);
+ return `<h2>تحویل</h2>${ok?'':'<div class="vit bad"><span class="ic">✗</span><span>اعتبارسنجی ناکام — به گام ۵ برگرد.</span></div>'}
+ <div class="row noprint">
+  <button class="btn" ${ok?'':'disabled'} onclick="doDownload()">دانلود فایل روتین (MD)</button>
+  <button class="btn gh" onclick="doCopy()">کپی متن</button>
+  <button class="btn ok" ${ok?'':'disabled'} onclick="startWeek()">شروع هفته (فعال‌سازی رصد)</button>
+  <button class="btn gh" onclick="window.print()">چاپ</button>
+ </div><pre id="md">${esc(buildMD(draft))}</pre>`}
+function doDownload(){const b=new Blob([buildMD(draft)],{type:'text/markdown;charset=utf-8'});const a=document.createElement('a');
+ a.href=URL.createObjectURL(b);a.download=`Routine-W${String(draft.n).padStart(2,'0')}-${draft.mode==='exam'?'exam':'regular'}.md`;a.click();URL.revokeObjectURL(a.href)}
+function doCopy(){navigator.clipboard.writeText(buildMD(draft)).then(()=>alert('روتین کپی شد.'))}
+function startWeek(){const i=weeks.findIndex(w=>w.n===draft.n);
+ const rec={n:draft.n,mode:draft.mode,phase:draft.phase,quotas:draft.quotas,tracking:DAYS.map(()=>({l:false,k:'',e:'',note:''})),summary:null,closed:false};
+ if(i>=0)weeks[i]=rec;else weeks.push(rec);
+ draft.started=true;save(K_W,weeks);save(K_D,draft);tab='run';render()}
+
+/* ════════ رابط: اجرا و رصد ════════ */
+function rRun(){const w=weeks.find(x=>!x.closed);
+ if(!w)return `<h1>اجرا و رصد</h1><div class="card"><p>هفتهٔ فعالی در اجرا نیست. از «مولد روتین» روتین بساز و «شروع هفته» را بزن.</p><button class="btn" onclick="go('gen')">برو به مولد</button></div>`;
+ let h=`<h1>اجرا و رصد — هفتهٔ ${fa(w.n)}</h1><p class="mut">هر شب ۳۰ ثانیه: L کامل شد؟ چند درصد K؟ انرژی؟ یک خط واقعیت. همین تعداد، جمع‌بندی پنجشنبه را می‌سازد.</p>`;
+ h+=`<div class="card"><table><tr><th>روز</th><th>L کامل</th><th>K ٪</th><th>انرژی /۵</th><th>یک خط واقعیت</th></tr>`;
+ w.tracking.forEach((t,i)=>{h+=`<tr><td>${DAYS[i].n}</td>
+  <td style="text-align:center"><input type="checkbox" style="width:20px;height:20px;min-height:0" ${t.l?'checked':''} onchange="tset(${i},'l',this.checked)"></td>
+  <td><input class="n" type="number" min="0" max="100" value="${t.k}" oninput="tset(${i},'k',this.value)"></td>
+  <td><input class="n" type="number" min="1" max="5" step="0.5" value="${t.e}" oninput="tset(${i},'e',this.value)"></td>
+  <td><input value="${t.note||''}" oninput="tset(${i},'note',this.value)"></td></tr>`});
+ h+=`</table></div><div class="card"><h2>جمع‌بندی هفتگی</h2>
+ <label class="fld"><span>بک‌لاگ فیزیک پایانی هفته (تست)</span><input class="n" type="number" min="0" id="bkFinal" value="${w.summary?w.summary.backlogFinal:draft.status.backlog}"></label>
+ <div class="row"><button class="btn" onclick="makeSummary()">محاسبهٔ جمع‌بندی</button>
+ ${w.summary?`<button class="btn ok" onclick="closeWeek()">بستن هفته و ساخت پیش‌نویس هفتهٔ ${fa(w.n+1)}</button>`:''}</div>
+ <div id="sumbox">${w.summary?sumBox(w.summary):''}</div></div>`;return h}
+function tset(i,k,v){const w=weeks.find(x=>!x.closed);w.tracking[i][k]=v;save(K_W,weeks)}
+function makeSummary(){const w=weeks.find(x=>!x.closed);
+ const ks=w.tracking.map(t=>parseFloat(t.k)).filter(x=>!isNaN(x));
+ const es=w.tracking.map(t=>parseFloat(t.e)).filter(x=>!isNaN(x));
+ w.summary={k:ks.length?Math.round(ks.reduce((a,b)=>a+b,0)/ks.length):0,
+  energy:es.length?+(es.reduce((a,b)=>a+b,0)/es.length).toFixed(1):0,
+  lDays:w.tracking.filter(t=>t.l).length,
+  backlogFinal:Math.max(0,parseInt(document.getElementById('bkFinal').value)||0)};
+ save(K_W,weeks);render()}
+function sumBox(s){return `<table><tr><th>K میانگین</th><th>انرژی</th><th>روزهای L</th><th>بک‌لاگ پایانی</th></tr><tr><td class="num">${fa(s.k)}٪</td><td class="num">${fa(s.energy)}</td><td class="num">${fa(s.lDays)}/۷</td><td class="num">${fa(s.backlogFinal)}</td></tr></table>
+ ${s.k<60?'<div class="vit warn"><span class="ic">!</span><span>K زیر ۶۰٪ — اگر هفتهٔ قبل هم زیر ۶۰ بود، فرمانروا در مولد هفتهٔ بعد فعال می‌شود.</span></div>':''}
+ ${s.k>=90?'<div class="vit ok"><span class="ic">✓</span><span>K بالای ۹۰٪ — هفتهٔ بعد ۱۰٪ می‌توانی اضافه کنی.</span></div>':''}`}
+function closeWeek(){const w=weeks.find(x=>!x.closed);if(!w.summary){alert('اول جمع‌بندی را محاسبه کن.');return}
+ w.closed=true;save(K_W,weeks);draft=newDraft(w.n+1);save(K_D,draft);step=1;tab='gen';render()}
+
+/* ════════ رابط: تاریخچه ════════ */
+function rHis(){let h=`<h1>تاریخچه</h1><div class="card">`;
+ if(!weeks.length)h+=`<p class="mut">هنوز هفته‌ای ثبت نشده.</p>`;
+ else{h+=`<table><tr><th>هفته</th><th>حالت</th><th>فاز</th><th>K ٪</th><th>انرژی</th><th>L</th><th>بک‌لاگ</th><th>وضعیت</th></tr>`;
+  weeks.slice(-12).forEach(w=>{h+=`<tr><td>${fa(w.n)}</td><td>${w.mode==='exam'?'آزمون':'بدون'}</td><td>${fa(w.phase)}</td><td class="num">${w.summary?fa(w.summary.k)+'٪':'—'}</td><td class="num">${w.summary?fa(w.summary.energy):'—'}</td><td class="num">${w.summary?fa(w.summary.lDays)+'/۷':'—'}</td><td class="num">${w.summary?fa(w.summary.backlogFinal):'—'}</td><td>${w.closed?'بسته':'فعال'}</td></tr>`});
+  h+=`</table>`;const ks=weeks.filter(w=>w.summary).map(w=>w.summary.k);
+  if(ks.length)h+=`<p class="mut" style="margin-top:12px">روند K هفته‌به‌هفته:</p><div class="bars">${ks.map(k=>`<i style="height:${Math.max(4,k)}%" title="${k}٪"></i>`).join('')}</div>`}
+ h+=`</div><div class="row"><button class="btn dn" onclick="wipe()">پاک‌کردن همهٔ داده‌ها</button></div>`;return h}
+function wipe(){if(confirm('همهٔ هفته‌ها و پیش‌نویس پاک شود؟ برگشت‌پذیر نیست.')){weeks=[];draft=newDraft(1);save(K_W,weeks);save(K_D,draft);render()}}
+
+/* ════════ تولید Markdown ════════ */
+function buildMD(d){
+ const q=id=>d.quotas[id];
+ const mk=(id,f)=>`L ${fa(r5(Number(q(id).L)*f))} / K ${fa(r5(Number(q(id).K)*f))}`;
+ const a=analysisLabel(d),src=a.txt,ex=d.mode==='exam',e=d.events,hol=k=>e.holidays[k];
+ const out=[];
+ out.push(`# روتین هفتهٔ ${fa(d.n)}${d.startDate?' — '+d.startDate:''}`,'',
+  `> فاز ${fa(d.phase)} · هفتهٔ ${ex?'آزمون ماز':'بدون آزمون ماز'} · چارچوب v2.0`,'',
+  `> تولیدشده با مولد روتین — مقادیر متغیر همین هفته اینجاست؛ قواعد ثابت در چارچوب.`,'');
+ out.push(`## ۰) وضعیت ورودی و روند`,'',`| شاخص | هفتهٔ قبل | هدف این هفته |`,`|---|---|---|`,
+  `| اجرای K | ${d.status.k!==''?fa(d.status.k)+'٪':'—'} | ≥۷۵٪ |`,
+  `| بک‌لاگ فیزیک | ${fa(d.status.backlog)} | ${Number(d.status.backlog)>0?'کاهش حداقل ۴۰٪':'صفر ماندن'} |`,
+  `| انرژی میانگین | ${d.status.energy!==''?fa(d.status.energy):'—'} | ≥۳.۵ |`,
+  `| روزهای L-کامل | ${d.status.lDays!==''?fa(d.status.lDays)+' از ۷':'—'} | ≥۶ |`,'');
+ const debts=[];if(d.status.debts.a)debts.push('مرور A جامانده');if(d.status.debts.b)debts.push('ضبط B جامانده');if(d.status.debts.an)debts.push('تحلیل جامانده');
+ out.push(`بدهی‌های ورودی: ${debts.length?debts.join(' · '):'ندارد ✓'}`);
+ if(d.status.note)out.push(`یادداشت: ${d.status.note}`);out.push('');
+ out.push(`## ۱) قفل‌های هفته (تغییرناپذیر)`,'',
+  `- خواب 23:30–06:30 (هر شب)`,
+  `- کلاس‌های A زنده: شنبه فیزیک 22:00 · یکشنبه حسابان 16:45 · دوشنبه فیزیک 16:45 / فارسی 18:30 / شیمی 20:15 · سه‌شنبه دینی 18:30 · چهارشنبه هندسه 16:45`,
+  `- پخش‌های B نادیده گرفته می‌شوند (ضبط بعداً): یکشنبه زمین/عربی · سه‌شنبه آمار`,
+  `- زبان C شنبه ← ${d.langCut?'حذف این هفته (طبق تعریف C)':'اختیاری — بدون گرفتن وقت از خواب، A و کارهای ضروری'}`);
+ if(ex)out.push(`- آزمون ماز: جمعه، شروع ثابت 08:00، مدت ۳ ساعت (بازهٔ مجاز شرکت 08:00–15:00)`);
+ if(e.asatide)out.push(`- آزمون اساتید: ${dayName(e.asatideDay)} ${e.asatideTime}`);
+ for(const k of ['sat','sun','mon','tue','wed'])if(hol(k))out.push(`- تعطیلی مدرسه ${dayName(k)} — زنگ‌های این روز طبق قاعدهٔ جابه‌جایی به اسلات باز منتقل می‌شوند`);
+ if(e.schoolExam)out.push(`- هفتهٔ امتحان مدرسه: بار سبک — Lها محفوظ، Kها بر حسب ظرفیت واقعی`);
+ out.push(`- ورزش چهارشنبه بلاعوض · جمعه ۸ ساعت استراحت`,
+  `- مدرسه: شنبه عربی (زنگ ۳) و یکشنبه تاریخ (زنگ ۲) گوش + جزوه · دوشنبه زنگ آخر استراحت`,'');
+ out.push(`## ۲) جای‌گذاری چهار اصل`,'',`### مرورهای A (اصل ۲ — سقف ۴۸ ساعت)`,'',
+  `| کلاس A | پایان | مهلت مرور | جای مرور |`,`|---|---|---|---|`,
+  REVIEWS.map(r=>`| ${r[0]} ${r[1]} | ${r[2]} | ${r[3]} | ${r[4]} |`).join('\n'),'',
+  `### ضبط‌های B (اصل ۱ — پیش از جلسهٔ بعدی)`,'',
+  `| ضبط | پخش | مهلت | جای تماشا |`,`|---|---|---|---|`,
+  BREC.map(r=>`| ${r[0]} | ${r[1]} | ${r[2]} | ${r[3]} |`).join('\n'),'',
+  `### منبع تحلیل شنبه (اصل ۳)`,`شنبه ← ${src} (زمان دقیق: 14:30–16:30، L 60′ / K 120′ + دفتر خطا)`,'',
+  `### قاعدهٔ یک روز اختلال (اصل ۴)`,
+  `C حذف ← B به مهلت بعدی ← A و خواب محفوظ ← جبران در پنجشنبه/جمعه با ظرفیت واقعی؛ سهمیه‌ها بدون محاسبهٔ دوباره به روز بعد منتقل نمی‌شوند.`,
+  d.sultanApplied?`> فرمانروا: سهمیه‌های این هفته ۲۰٪ کاهش یافت (دو هفتهٔ متوالی K<۶۰٪).`:'' ,'');
+ out.push(`## ۳) سهمیه‌های هفته (L/K)`,'',`| درس | L | K |`,`|---|---|---|`,
+  SUBJECTS.map(s=>`| ${s.n} | ${fa(q(s.id).L)} | ${fa(q(s.id).K)} |`).join('\n'),
+  `| **جمع** | **${fa(totL())}** | **${fa(totK())}** |`,'',
+  `قواعد: تحلیل غلط‌ها همان روز · ثبت دفتر خطا (بی‌دقتی/مفهومی/زمانی) · تمرین با تایمر زمان استاندارد (فاز ۱) · تست بدون تحلیل نصف شمرده می‌شود · K ≥ L برای هر درس.`,'');
+ const B=(t,x)=>out.push(`- **${t}** — ${x}`);
+ out.push(`## ۴) نقشهٔ روزها`,'');
+ out.push(`### شنبه — مأموریت: ${MISSION.sat}`);
+ B('مدرسه',(hol('sat')?'تعطیل — بک‌لاگ به اسلات باز (نردبان):':'عربی زنگ ۳ گوش+جزوه (قفل) · زنگ‌های ۱/۲/۴ ← تست بک‌لاگ فیزیک')+` (${mk('phyBack',.75)})`);
+ B('14:30–16:30',`تحلیل ${src} (L 60′ / K 120′ + دفتر خطا)`);
+ B('16:45–18:15',d.langCut?'زبان C — حذف این هفته ← سرریز تحلیل یا استراحت':'زبان C (اختیاری)');
+ B('18:15–19:30','شام / استراحت');
+ B('19:30–21:30',`تحلیل تست‌های بک‌لاگ (${mk('phyBack',.25)}) + عربی (${mk('arabic',.35)})`);
+ B('22:00–23:30','فیزیک A — زنده');
+ B('23:30','مرور ذهنی در تخت (۳ ایدهٔ فیزیک) ← خواب');out.push('');
+ out.push(`### یکشنبه — مأموریت: ${MISSION.sun}`);
+ B('مدرسه',(hol('sun')?'تعطیل — حسابان به اسلات باز:':'تاریخ زنگ ۲ نکته‌برداری (قفل) · زنگ‌های ۱/۳/۴ ← تست حسابان')+` (${mk('calc',.6)})`);
+ B('14:00–16:30','ناهار / استراحت / روتین (قفل)');
+ B('16:45–20:00','حسابان A');
+ B('20:00–20:45','مرور لحظه‌ای حسابان (قلم اصل ۲)');
+ B('20:45–21:45',`تست حسابان (${mk('calc',.4)})`);
+ B('22:15–23:15',`عربی عمومی (${mk('arabic',.35)})`);
+ B('23:30','خواب — پخش زندهٔ زمین/عربی نادیده (طبق چارچوب)');out.push('');
+ out.push(`### دوشنبه — مأموریت: ${MISSION.mon}`);
+ B('مدرسه',(hol('mon')?'تعطیل — بار به اسلات‌های باز طبق نردبان:':'زنگ ۱/۳ ← مرور فیزیک شنبه (۱۵′) + تست فیزیک جاری')+` (${mk('phy',.5)}) · زنگ ۲ ← فارسی (${mk('farsi',.7)}) · زنگ ۴ ← استراحت (قفل)`);
+ B('15:00–16:45','روتین / استراحت (قفل)');
+ B('16:45–18:15','فیزیک A · 18:30–20:00 فارسی A');
+ B('20:00–20:15','پیش‌خوانی ۱۰′ سرفصل شیمی');
+ B('20:15–23:15','شیمی A (با میکروبریک)');
+ B('23:15','مرور ذهنی در تخت (۳ ایدهٔ شیمی) ← خواب');out.push('');
+ out.push(`### سه‌شنبه — مأموریت: ${MISSION.tue}`);
+ B('مدرسه',(hol('tue')?'تعطیل — ضبط‌ها به چهارشنبه (پیش از مهلت):':'زنگ‌ها ← شیمی')+` (${mk('chem',1)}) + مرور/تست فیزیک دوشنبه (${mk('phy',.5)}) + هندسه (${mk('geo',.2)})`);
+ B('17:00–18:15','مرور کامل شیمی دوشنبه + ۱۰ تست (قلم اصل ۲)');
+ B('18:30–20:00','دینی A');
+ B('20:00–20:45','ضبط عربی B (سرعت ۲)');
+ B('20:45–21:30','ضبط زمین B (سرعت ۲)');
+ B('21:30–23:00',`عمومی میکرو (املا ۱۰′ + دینی ${mk('din',.6)}) + جامانده‌ها`);
+ B('23:30','خواب');out.push('');
+ out.push(`### چهارشنبه — مأموریت: ${MISSION.wed}`);
+ B('مدرسه',(hol('wed')?'تعطیل — هندسه به اسلات باز:':'ورزش زنگ ۱ بلاعوض · زنگ ۲/۳ ← تست هندسه')+` (${mk('geo',.45)})`);
+ B('15:00–16:45','روتین (قفل) · 16:45–18:15 هندسه A');
+ B('18:15–19:00','شام / استراحت');
+ B('19:00–19:30','مرور فارسی دوشنبه (قلم اصل ۲)');
+ B('19:30–21:00',`تست هندسه (${mk('geo',.35)})`);
+ B('21:00–22:30',`باز — نردبان (پیش‌فرض: عربی ${mk('arabic',.3)} / فارسی ${mk('farsi',.3)})`);
+ B('23:30','خواب');out.push('');
+ out.push(`### پنجشنبه — مأموریت: ${MISSION.thu}`);
+ B('07:30–09:00','مرور فاصله‌دار ۷/۳۰ (L 45′ / K 90′)');
+ B('09:00–12:00',e.asatide?`آزمون اساتید (${e.asatideTime})`:'باز — نردبان');
+ B('12:00–14:00','ناهار / استراحت');
+ B('14:00–14:45','ضبط آمار B (سرعت ۲)');
+ B('14:45–15:15','مرور دینی (اصل ۲) · 15:30–16:00 مرور هندسه (اصل ۲)');
+ B('16:15–17:00',ex?'آمادگی سبک آزمون ماز (دفتر خطا + سرفصل‌های اعلامی)':'جبران و بدهی‌ها طبق نردبان');
+ B('17:00–19:00','استراحت / زمان شخصی');
+ B('19:00–19:45',`جمع‌بندی هفتهٔ ${fa(d.n)} + پیش‌نویس روتین هفتهٔ ${fa(d.n+1)}`);
+ B('19:45–21:30','باز — نردبان (جبران Kهای ناتمام'+(!d.langCut?' · زبان':'')+')');
+ B('21:30–23:30',ex?'استراحت + آماده‌سازی صبح آزمون (صبحانه، میز، خودکار)':'استراحت');out.push('');
+ out.push(`### جمعه — مأموریت: ${MISSION.fri}`);
+ if(ex){B('06:30','بیداری · 07:00–07:45 صبحانهٔ کامل + ۱۰′ گرم‌کردن ذهن');
+  B('08:00–11:00','آزمون ماز (شروع ثابت 08:00)');
+  B('11:00–11:30','مرور داغ: فقط سؤال‌های علامت‌دار');
+  B('11:30–19:30','۸ ساعت استراحت (قفل)');
+  B('19:30–23:30','اختیاریِ سبک یا هیچ · 23:30 خواب');
+  out.push(`- ← شنبه: تحلیل کامل این آزمون = ورودی هفتهٔ ${fa(d.n+1)}`)}
+ else{B('کل روز','۸ ساعت استراحت (قفل) + زمان شخصی');
+  B('اسلات‌های اختیاری','بدهی/بک‌لاگ طبق نردبان — بدون اجبار');
+  out.push(`- ← منبع تحلیل شنبهٔ بعد، هنگام پیش‌نویس هفتهٔ ${fa(d.n+1)} مشخص شود (اصل ۳)`)}
+ out.push('');
+ out.push(`## ۵) نردبان اسلات باز`,LADDER.join(' · '),'');
+ out.push(`## ۶) قربانی‌های این هفته (ترتیب حذف Kها)`,SACRIFICE.join(' ← ')+`. هیچ L و هیچ مهلت بخش ۲ در این فهرست نیست.`,'');
+ out.push(`## ۷) رصد روزانه (هر شب ۳۰ ثانیه)`,'',`| روز | L کامل؟ | K ٪ | انرژی /۵ | یک خط واقعیت |`,`|---|---|---|---|---|`,
+  DAYS.map(x=>`| ${x.n} | ☐ | | | |`).join('\n'),'');
+ out.push(`## ۸) جمع‌بندی هفتگی (پنجشنبه شب)`,
+  `۱. کدام Lها ناتمام ماندند و چرا؟ ۲. K واقعی چند ٪ شد؟ (<۶۰٪ ← هفتهٔ بعد ۱۵٪ کم) ۳. بک‌لاگ فیزیک: عدد پایانی؟ ۴. بزرگ‌ترین الگوی خطا؟ ۵. یک چیز که هفتهٔ بعد عوض می‌کنم: ____`,'');
+ out.push(`## ۹) چک‌لیست سازگاری با چارچوب`,
+  `- [x] هر ضبط B جای و مهلت دارد (بخش ۲)`,
+  `- [x] هر کلاس A مروری ≤۴۸ ساعت دارد (بخش ۲)`,
+  `- [x] منبع تحلیل شنبه: ${src}`,
+  `- [x] ترتیب اختلال مشخص است (بخش ۲ و ۶)`,
+  `- [x] بک‌لاگ فیزیک عدد دارد: ${fa(d.status.backlog)}`,
+  `- [x] خواب 23:30–06:30 و ۸ ساعت جمعه نقض نشده`,'',
+  `*قاعدهٔ جابه‌جایی: اگر اسلاتی از دست رفت، همان قلم اولین اسلات باز طبق نردبان می‌رود — نه قلم بعدی.*`,
+  `*منبع: چارچوب v2.0 · مولد روتین Weekly OS*`);
+ return out.filter(x=>x!==undefined).join('\n');
+}
+
+/* ════════ بوت ════════ */
+function render(){for(const t of['gen','run','his'])document.getElementById('t-'+t).classList.toggle('on',tab===t);
+ app.innerHTML=tab==='gen'?rGen():tab==='run'?rRun():rHis()}
+function go(t){tab=t;render()}
+function toggleTheme(){const h=document.documentElement,d=h.getAttribute('data-theme')==='dark';h.setAttribute('data-theme',d?'light':'dark');save(K_T,d?'light':'dark')}
+(function(){const t=load(K_T,null);if(t)document.documentElement.setAttribute('data-theme',t)})();
+render();
+</script>
+</body>
+</html>
